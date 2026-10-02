@@ -1,0 +1,36 @@
+[project]
+name = "react_agent"
+version = "0.1.0"
+description = "Autonomous ReAct agent framework with working-memory context compaction"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.28.0",
+    "jinja2>=3.1.6",
+    "modal>=1.5.3",
+    "openai>=2.52.0",
+    "python-dotenv>=1.2.2",
+    "pyyaml>=6.0",
+    "swe-rex[modal]",
+    "tqdm>=4.70.0",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+agent-code = "react_agent.cli:run_code_agent"
+agent-chess = "react_agent.cli:run_chess_agent"
+agent-swebench = "react_agent.cli:run_swebench_agent"
+agent-doctor = "react_agent.doctor:main"
+
+[tool.pytest.ini_options]
+markers = ["modal: spins up a real Modal sandbox (slow, billable)"]
+addopts = "-m 'not modal'"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/react_agent"]
